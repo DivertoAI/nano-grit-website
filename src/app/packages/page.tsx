@@ -1,0 +1,35 @@
+import { PageHero } from "@/components/sections/page-hero";
+import { SectionReveal } from "@/components/ui/section-reveal";
+import { PACKAGES } from "@/content/site";
+
+export default function PackagesPage() {
+  return (
+    <main className="pb-16">
+      <PageHero
+        title="Packages"
+        description="Choose a coating package based on your finish goals, driving conditions, and maintenance preference."
+      />
+      <section className="shell mt-12 grid gap-4 lg:grid-cols-3">
+        {PACKAGES.map((item, index) => (
+          <SectionReveal key={item.name} className="card p-6" delay={index * 0.07}>
+            <p className="display-font text-3xl tracking-[0.05em] text-slate-900">
+              {item.name}
+            </p>
+            <p className="mt-2 text-lg font-bold text-[var(--accent-strong)]">{item.price}</p>
+            <p className="mt-3 text-sm text-muted">{item.description}</p>
+            <ul className="mt-4 grid gap-2">
+              {item.features.map((feature) => (
+                <li
+                  key={feature}
+                  className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700"
+                >
+                  {feature}
+                </li>
+              ))}
+            </ul>
+          </SectionReveal>
+        ))}
+      </section>
+    </main>
+  );
+}
