@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import {
   BOOKING_ELIGIBILITY_RULES,
@@ -6,6 +7,16 @@ import {
   BRAND,
   PRODUCT_CATALOG_GROUPS,
 } from "@/content/site";
+
+export const metadata: Metadata = {
+  title: "Contact & Book | Nano Grit Detailing & Coating Solutions",
+  description: "Book a detailing slot, get a WhatsApp quote, or ask about onsite service and pickup & drop. Nano Grit — +91 99018 54580.",
+  openGraph: {
+    title: "Contact & Book | Nano Grit",
+    description: "Get a quote or book your detailing slot via WhatsApp or our booking form. Onsite, studio, and pickup & drop available.",
+    images: [{ url: "/media/collage/collage-05.jpg", width: 1200, height: 630 }],
+  },
+};
 
 export default function ContactPage() {
   return (

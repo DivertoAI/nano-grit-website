@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { BRAND, PRODUCT_CATALOG_GROUPS, SERVICE_GROUPS } from "@/content/site";
+
+export const metadata: Metadata = {
+  title: "Services | Nano Grit Detailing & Coating Solutions",
+  description: "Glass, plastic, alloy, paint and leather coatings — plus custom paint, powder coating, tinting, wrapping, and ceramic maintenance products.",
+  openGraph: {
+    title: "Services | Nano Grit",
+    description: "Full-range detailing services: coatings, custom paint, powder coating, tinting, wrapping, and maintenance products for cars and bikes.",
+    images: [{ url: "/media/collage/collage-02.jpg", width: 1200, height: 630 }],
+  },
+};
 
 export default function ServicesPage() {
   return (

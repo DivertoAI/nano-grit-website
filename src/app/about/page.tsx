@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { PROCESS, STATS } from "@/content/site";
+
+export const metadata: Metadata = {
+  title: "About | Nano Grit Detailing & Coating Solutions",
+  description: "Nano Grit is an automotive detailing and coating team focused on precision prep, durable protection, and premium finish standards for cars and bikes.",
+  openGraph: {
+    title: "About Nano Grit",
+    description: "A detailing and coating team built for owners who want measurable coating quality — controlled process stages, panel-wise checks, premium chemistry.",
+    images: [{ url: "/media/collage/collage-04.jpg", width: 1200, height: 630 }],
+  },
+};
 
 export default function AboutPage() {
   return (

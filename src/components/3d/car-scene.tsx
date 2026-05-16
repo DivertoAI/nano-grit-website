@@ -308,7 +308,12 @@ export function CarScene({
           {/* Under-car glow */}
           <pointLight position={[0, -1.5, 0]} intensity={3} color="#1e293b" distance={5} decay={2} />
 
-          <Suspense fallback={null}>
+          <Suspense fallback={
+            <mesh>
+              <boxGeometry args={[0.001, 0.001, 0.001]} />
+              <meshBasicMaterial transparent opacity={0} />
+            </mesh>
+          }>
             <Environment preset="city" />
             <CarModel onReady={onReady} autoRotateEnabled={autoRotateEnabled} />
             <ContactShadows
@@ -344,4 +349,7 @@ export function CarScene({
   );
 }
 
-useGLTF.preload(HERO_MODEL_PATH);
+// Only preload on desktop — mobile shows a video fallback and never renders the canvas
+if (typeof window !== "undefined" && window.innerWidth > 768) {
+  useGLTF.preload(HERO_MODEL_PATH);
+}

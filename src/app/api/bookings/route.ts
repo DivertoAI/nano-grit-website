@@ -122,12 +122,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
-    console.error("Booking sheet append failed:", message);
+    const isConfigError =
+      message.includes("Missing required environment variable") ||
+      message.includes("DECODER_ERROR") ||
+      message.includes("invalid_grant") ||
+      message.includes("unauthorized_client");
+
+    console.error(
+      isConfigError
+        ? "[bookings] CONFIG ERROR — check Vercel env vars:"
+        : "[bookings] RUNTIME ERROR:",
+      message,
+    );
+
     return NextResponse.json(
-      {
-        error: "Unable to submit booking right now. Please use WhatsApp.",
-      },
-      { status: 500 },
+      { error: "Unable to submit booking right now. Please use WhatsApp." },
+      { status: isConfigError ? 503 : 500 },
     );
   }
 }

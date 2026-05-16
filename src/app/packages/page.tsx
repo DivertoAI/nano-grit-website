@@ -1,6 +1,17 @@
+import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
 import { SectionReveal } from "@/components/ui/section-reveal";
 import { PACKAGES } from "@/content/site";
+
+export const metadata: Metadata = {
+  title: "Packages | Nano Grit Detailing & Coating Solutions",
+  description: "Choose from Street Shield, Track Gloss, or Titanium Pro — ceramic coating packages built around your finish goals and driving conditions.",
+  openGraph: {
+    title: "Packages | Nano Grit",
+    description: "Ceramic coating packages for every vehicle and use case — from daily drivers to track cars.",
+    images: [{ url: "/media/collage/collage-03.jpg", width: 1200, height: 630 }],
+  },
+};
 
 export default function PackagesPage() {
   return (
