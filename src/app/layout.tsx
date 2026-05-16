@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import { BRAND } from "@/content/site";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteNav } from "@/components/site-nav";
+import { WhatsAppFloat } from "@/components/ui/whatsapp-float";
 
 const displayFont = Oswald({
   variable: "--font-display",
@@ -60,6 +61,7 @@ export default function RootLayout({
         <SiteNav />
         <div className="flex-1">{children}</div>
         <SiteFooter />
+        <WhatsAppFloat />
       </body>
     </html>
   );

@@ -157,7 +157,7 @@ function CarModel({ onReady, autoRotateEnabled }: CarModelProps) {
   });
 
   return (
-    <group ref={groupRef} position={[0, 0.7, 0]} rotation={[0, -0.5, 0]}>
+    <group ref={groupRef} position={[0, 0, 0]} rotation={[0, -0.5, 0]}>
       <Center>
         <primitive object={cloned} />
       </Center>
