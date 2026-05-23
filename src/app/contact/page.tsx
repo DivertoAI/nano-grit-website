@@ -100,6 +100,92 @@ export default function ContactPage() {
         </div>
       </section>
 
+      <section className="shell mt-10">
+        <div className="card overflow-hidden p-0">
+          <div className="px-7 pt-7 pb-4 md:px-8 md:pt-8">
+            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
+              Location
+            </p>
+            <h2 className="display-font mt-2 text-3xl tracking-[0.04em] text-slate-900">
+              Find Us
+            </h2>
+            <p className="mt-1 text-sm text-slate-600">
+              #62, Vishwaneedam Post, Mudinaplaya, Near Neelakanteshwara Temple, Bangalore – 560091
+            </p>
+          </div>
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=12.9694933,77.4870477"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Open Nano Grit location in Google Maps"
+            className="relative block"
+          >
+            <iframe
+              src="https://maps.google.com/maps?q=12.9694933,77.4870477&z=17&output=embed"
+              width="100%"
+              height="380"
+              style={{ border: 0, display: "block", pointerEvents: "none" }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Nano Grit Detailing and Coating Solutions"
+            />
+            {/* Label floated above the center pin */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "calc(50% - 72px)",
+                transform: "translateX(-50%)",
+                pointerEvents: "none",
+              }}
+            >
+              <div
+                style={{
+                  background: "#111827",
+                  color: "#fff",
+                  borderRadius: "10px",
+                  padding: "7px 13px",
+                  textAlign: "center",
+                  whiteSpace: "nowrap",
+                  boxShadow: "0 4px 16px rgba(0,0,0,0.35)",
+                  lineHeight: 1.25,
+                }}
+              >
+                <div style={{ fontSize: "11px", fontWeight: 800, letterSpacing: "0.18em", textTransform: "uppercase" }}>
+                  NANO GRIT
+                </div>
+                <div style={{ fontSize: "9px", fontWeight: 500, letterSpacing: "0.06em", color: "#9ca3af", marginTop: "2px" }}>
+                  Detailing &amp; Coating Solutions
+                </div>
+              </div>
+              {/* Callout arrow */}
+              <div
+                style={{
+                  width: 0,
+                  height: 0,
+                  borderLeft: "7px solid transparent",
+                  borderRight: "7px solid transparent",
+                  borderTop: "8px solid #111827",
+                  margin: "0 auto",
+                }}
+              />
+            </div>
+          </a>
+          <div className="flex items-center justify-between px-7 py-4 md:px-8">
+            <p className="text-xs text-slate-500">Tap the map to open in Google Maps</p>
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=12.9694933,77.4870477"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-slate-700"
+            >
+              Get Directions
+            </a>
+          </div>
+        </div>
+      </section>
+
       <section className="shell mt-12 grid gap-6 lg:grid-cols-2">
         {PRODUCT_CATALOG_GROUPS.map((group) => (
           <div key={group.title} className="card p-7">

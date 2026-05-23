@@ -1,8 +1,7 @@
 "use client";
 
-import { CarScene } from "@/components/3d/car-scene";
-import { EngineLoader } from "@/components/loader/engine-loader";
 import { SectionReveal } from "@/components/ui/section-reveal";
+import { useHomeWorks, useHeroCollage, useHeroVideo } from "@/lib/media-store";
 import { WorkMediaModal } from "@/components/ui/work-media-modal";
 import {
   BOOKING_ELIGIBILITY_RULES,
@@ -12,17 +11,15 @@ import {
   BRAND,
   CONTACT_DEFAULTS,
   FAQS,
-  HERO_COLLAGE,
   SERVICE_GROUPS,
   PACKAGES,
   PROCESS,
   STATS,
   TESTIMONIALS,
-  WORKS,
   WorkMediaItem,
 } from "@/content/site";
 import { useParallax } from "@/lib/parallax";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
@@ -62,11 +59,9 @@ const initialFormState: ContactFormState = {
 };
 
 export function HomePage() {
-  const [carReady, setCarReady] = useState(false);
-  const [carFailed, setCarFailed] = useState(false);
-  const [mobileReady, setMobileReady] = useState(false);
-  const [showLoader, setShowLoader] = useState(true);
-  const [hasSeenLoader, setHasSeenLoader] = useState(false);
+  const { items: homeWorks } = useHomeWorks();
+  const { items: heroCollage } = useHeroCollage();
+  const { src: heroVideoSrc } = useHeroVideo();
   const [activeWork, setActiveWork] = useState<WorkMediaItem | null>(null);
   const [activePreviewSrc, setActivePreviewSrc] = useState<string | null>(null);
   const [form, setForm] = useState(initialFormState);
@@ -77,74 +72,12 @@ export function HomePage() {
   const heroRef = useRef<HTMLElement | null>(null);
   const worksRef = useRef<HTMLElement | null>(null);
   const statsRef = useRef<HTMLDivElement | null>(null);
-  const bootStartRef = useRef<number | null>(null);
-  const loaderHiddenRef = useRef(false);
-  const heroVisibleMarkedRef = useRef(false);
-  const workPreviewMarkedRef = useRef(false);
-  const prefersReducedMotion = useReducedMotion();
-
-  const trackMetric = (name: string, value: number) => {
-    const rounded = Math.round(value);
-    if (typeof window !== "undefined") {
-      console.info(`[perf] ${name}: ${rounded}ms`);
-      window.dispatchEvent(
-        new CustomEvent("nano-grit-perf", { detail: { name, value: rounded } }),
-      );
-    }
-  };
-
   useEffect(() => {
-    bootStartRef.current = performance.now();
     const update = () => setIsMobile(window.innerWidth <= 768);
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, []);
-
-  useEffect(() => {
-    const seenLoader = window.sessionStorage.getItem("nano-grit-loader-seen") === "1";
-    setHasSeenLoader(seenLoader);
-    if (seenLoader) {
-      setShowLoader(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (showLoader) return;
-    window.sessionStorage.setItem("nano-grit-loader-seen", "1");
-    if (!loaderHiddenRef.current && bootStartRef.current !== null) {
-      loaderHiddenRef.current = true;
-      trackMetric("hero_loader_ms", performance.now() - bootStartRef.current);
-    }
-  }, [showLoader]);
-
-  useEffect(() => {
-    if (hasSeenLoader) return;
-    // Absolute safety cap — only fires if the model never signals ready or failed
-    const absoluteCap = window.setTimeout(() => setShowLoader(false), 25000);
-    return () => window.clearTimeout(absoluteCap);
-  }, [hasSeenLoader]);
-
-  useEffect(() => {
-    if (!showLoader) return;
-    // Hide loader as soon as the model is ready (or failed, or mobile video ready)
-    const modelReady = !isMobile ? (carReady || carFailed) : mobileReady;
-    if (modelReady || prefersReducedMotion) {
-      const timer = window.setTimeout(() => setShowLoader(false), 180);
-      return () => window.clearTimeout(timer);
-    }
-  }, [carReady, carFailed, isMobile, mobileReady, prefersReducedMotion, showLoader]);
-
-  useEffect(() => {
-    if (heroVisibleMarkedRef.current || bootStartRef.current === null) return;
-    heroVisibleMarkedRef.current = true;
-    trackMetric("hero_first_interactive_ms", performance.now() - bootStartRef.current);
-  }, []);
-
-  useEffect(() => {
-    if (!carReady || bootStartRef.current === null) return;
-    trackMetric("hero_3d_ready_ms", performance.now() - bootStartRef.current);
-  }, [carReady]);
 
   const heroNear = useParallax(heroRef, {
     yIn: [0, 1],
@@ -220,13 +153,12 @@ export function HomePage() {
 
   return (
     <>
-      <EngineLoader visible={showLoader} />
       <main className="pb-16">
         <section ref={heroRef} className="shell pt-10 md:pt-16">
           <div className="hero-shell parallax-container relative overflow-hidden rounded-[2rem] px-6 pb-8 pt-10 md:px-10 md:pb-12 md:pt-12">
             <div className="pointer-events-none absolute inset-0 z-0">
               <div className="hero-collage">
-                {HERO_COLLAGE.map((item) => {
+                {heroCollage.map((item) => {
                   const parallax = collageByTier[item.tier];
                   return (
                     <motion.div
@@ -318,54 +250,18 @@ export function HomePage() {
 
               <SectionReveal>
                 <motion.div className="parallax-layer-mid" style={{ y: heroMid.y }}>
-                  <div className="relative h-[21rem] w-full overflow-hidden rounded-[1.7rem] border border-white/55 bg-[linear-gradient(145deg,rgba(6,11,20,0.97)_0%,rgba(12,19,35,0.95)_48%,rgba(27,14,32,0.96)_100%)] shadow-[0_30px_80px_rgba(8,17,35,0.32)] md:h-[29rem]">
-                    <div className="pointer-events-none absolute inset-x-[9%] top-[-18%] h-[60%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.18),transparent_60%)] blur-3xl" />
-                    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_14%_16%,rgba(34,211,238,0.18),transparent_28%),radial-gradient(circle_at_88%_18%,rgba(244,63,94,0.2),transparent_32%),linear-gradient(180deg,transparent_0%,rgba(2,6,23,0.35)_100%)]" />
-                    <div className="pointer-events-none absolute inset-0 bg-[repeating-linear-gradient(120deg,rgba(148,163,184,0.045),rgba(148,163,184,0.045)_11px,transparent_11px,transparent_28px)]" />
-                    <div className="pointer-events-none absolute left-5 top-5 rounded-full border border-white/10 bg-white/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-200 backdrop-blur">
-                      Interactive Solutions View
-                    </div>
-                    {isMobile ? (
-                      <div className="relative h-full w-full">
-                        <video
-                          className="h-full w-full object-cover"
-                          poster="/media/posters/work-02.jpg"
-                          muted
-                          loop
-                          autoPlay
-                          playsInline
-                          preload="none"
-                          onLoadedData={() => setMobileReady(true)}
-                        >
-                          <source src="/media/videos/work-02.mp4" type="video/mp4" />
-                        </video>
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0">
-                        <CarScene
-                          posterSrc="/media/posters/work-03.jpg"
-                          onReady={() => setCarReady(true)}
-                          onError={() => {
-                            setCarFailed(true);
-                            if (bootStartRef.current !== null) {
-                              trackMetric(
-                                "hero_3d_fallback_used",
-                                performance.now() - bootStartRef.current,
-                              );
-                            }
-                          }}
-                          ready={carReady}
-                          mountWhenVisible={false}
-                          fallbackTimeoutMs={20000}
-                        />
-                      </div>
-                    )}
+                  <div className="relative h-[21rem] w-full overflow-hidden rounded-[1.7rem] border border-white/55 shadow-[0_30px_80px_rgba(8,17,35,0.32)] md:h-[29rem]">
+                    <video
+                      className="h-full w-full object-cover"
+                      muted
+                      loop
+                      autoPlay
+                      playsInline
+                      preload="auto"
+                    >
+                      <source src={heroVideoSrc} type="video/mp4" />
+                    </video>
                     <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,transparent_0%,rgba(2,6,23,0.28)_35%,rgba(2,6,23,0.82)_100%)]" />
-                    {!isMobile && !carFailed ? (
-                      <div className="pointer-events-none absolute bottom-4 right-4 rounded-full border border-cyan-300/25 bg-slate-950/65 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-cyan-100 backdrop-blur">
-                        Drag to rotate · Scroll to zoom
-                      </div>
-                    ) : null}
                   </div>
                 </motion.div>
               </SectionReveal>
@@ -400,7 +296,7 @@ export function HomePage() {
             </div>
 
             <div className="mt-8 grid gap-4 md:grid-cols-12">
-              {WORKS.slice(0, 5).map((item, index) => (
+              {homeWorks.map((item, index) => (
                 <SectionReveal key={item.title} className={`work-card group overflow-hidden rounded-[1.1rem] border border-white/12 ${item.span}`} delay={index * 0.05}>
                   <motion.div
                     className={index % 2 === 0 ? "parallax-layer-near" : "parallax-layer-mid"}
@@ -417,13 +313,6 @@ export function HomePage() {
                         onMouseEnter={() => {
                           if (isMobile || item.mediaType !== "video") return;
                           setActivePreviewSrc(item.src);
-                          if (!workPreviewMarkedRef.current && bootStartRef.current !== null) {
-                            workPreviewMarkedRef.current = true;
-                            trackMetric(
-                              "works_preview_start_ms",
-                              performance.now() - bootStartRef.current,
-                            );
-                          }
                         }}
                         onMouseLeave={() => {
                           if (activePreviewSrc === item.src) {
@@ -593,6 +482,9 @@ export function HomePage() {
               </SectionReveal>
             ))}
           </div>
+          <p className="mt-5 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
+            🏍️ Coating for bikes starts from <span className="text-[var(--accent-strong)]">₹3,999/-</span> onwards
+          </p>
         </section>
 
         <section className="shell mt-20">

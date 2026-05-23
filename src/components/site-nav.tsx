@@ -27,7 +27,7 @@ export function SiteNav() {
                 {BRAND.name}
               </p>
               <p className="nav-subbrand text-[11px] uppercase tracking-[0.2em]">
-                Detailing Solutions
+                Detailing &amp; Coating Solutions
               </p>
             </div>
           </Link>

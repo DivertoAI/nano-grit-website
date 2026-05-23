@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/sections/page-hero";
-import { WorksGrid } from "@/components/sections/works-grid";
-import { WORKS } from "@/content/site";
+import { GalleryClient } from "@/components/gallery-client";
 
 export const metadata: Metadata = {
   title: "Our Works | Nano Grit Detailing & Coating Solutions",
@@ -21,7 +20,7 @@ export default function GalleryPage() {
         description="Real workshop moments from correction, coating prep, gloss checks, and final delivery outcomes."
       />
       <section className="shell mt-10">
-        <WorksGrid items={WORKS.slice(4)} />
+        <GalleryClient />
       </section>
     </main>
   );

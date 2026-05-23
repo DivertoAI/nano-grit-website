@@ -41,6 +41,11 @@ export default function PackagesPage() {
           </SectionReveal>
         ))}
       </section>
+      <div className="shell mt-5">
+        <p className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
+          🏍️ Coating for bikes starts from <span className="text-[var(--accent-strong)]">₹3,999/-</span> onwards
+        </p>
+      </div>
     </main>
   );
 }

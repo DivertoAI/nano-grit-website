@@ -279,3 +279,12 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Override browser autofill background on admin login inputs */
+.login-input:-webkit-autofill,
+.login-input:-webkit-autofill:hover,
+.login-input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 40px #111827 inset !important;
+  -webkit-text-fill-color: #fff !important;
+  caret-color: #fff;
+}
