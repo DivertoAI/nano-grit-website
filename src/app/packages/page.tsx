@@ -41,11 +41,18 @@ export default function PackagesPage() {
           </SectionReveal>
         ))}
       </section>
-      <div className="shell mt-5">
-        <p className="rounded-2xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700">
-          🏍️ Coating for bikes starts from <span className="text-[var(--accent-strong)]">₹3,999/-</span> onwards
-        </p>
-      </div>
+      <SectionReveal className="shell mt-4" delay={0.21}>
+        <div className="card p-6">
+          <p className="display-font text-3xl tracking-[0.05em] text-slate-900">🏍️ Bike Coating</p>
+          <p className="mt-2 text-lg font-bold text-[var(--accent-strong)]">Starts at ₹3,999</p>
+          <p className="mt-3 text-sm text-muted">Ceramic coating packages for bikes — from daily commuters to performance machines.</p>
+          <ul className="mt-4 grid gap-2 sm:grid-cols-3">
+            <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Single-layer ceramic</li>
+            <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Decontamination wash</li>
+            <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Multi-layer options available</li>
+          </ul>
+        </div>
+      </SectionReveal>
     </main>
   );
 }
