@@ -123,7 +123,7 @@ export const BRAND: BrandConfig = {
   phoneHref: "tel:+919901854580",
   whatsapp: "919901854580",
   email: "nanogritindia@gmail.com",
-  mapUrl: "https://maps.app.goo.gl/ZTh7R8Q8mNNhPoZm6",
+  mapUrl: "https://www.google.com/maps/search/?api=1&query=12.9694933,77.4870477",
   canonicalUrl: "https://nanogritindia.com",
   hours: "Mon-Sat, 9:00 AM-8:00 PM",
 };

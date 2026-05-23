@@ -33,21 +33,25 @@ const COLLAGE_POSITIONS = [
 // ─── Upload helper ────────────────────────────────────────────────────────────
 function useUpload() {
   const [uploading, setUploading] = useState(false);
+  const [uploadWarning, setUploadWarning] = useState<string | null>(null);
   const upload = useCallback(async (file: File): Promise<{ path: string; type: "video" | "image" } | null> => {
     setUploading(true);
+    setUploadWarning(null);
     try {
       const fd = new FormData();
       fd.append("file", file);
       const res = await fetch("/api/upload", { method: "POST", body: fd });
       if (!res.ok) return null;
-      return await res.json();
+      const data = await res.json();
+      if (data.warning) setUploadWarning(data.warning);
+      return data;
     } catch {
       return null;
     } finally {
       setUploading(false);
     }
   }, []);
-  return { upload, uploading };
+  return { upload, uploading, uploadWarning };
 }
 
 // ─── Shared input style ───────────────────────────────────────────────────────
@@ -519,6 +523,15 @@ export default function AdminPage() {
           ))}
         </div>
       </div>
+
+      {/* Production upload notice */}
+      {typeof window !== "undefined" && window.location.hostname !== "localhost" && (
+        <div className="border-b border-amber-200 bg-amber-50 px-6 py-3">
+          <p className="mx-auto max-w-4xl text-xs text-amber-800">
+            <strong>Production mode:</strong> Uploaded files are temporary and won&apos;t persist after the serverless function ends. To permanently add media, place the file in <code className="rounded bg-amber-100 px-1">public/media/</code> in the git repo and redeploy.
+          </p>
+        </div>
+      )}
 
       {/* Content */}
       <main className="mx-auto max-w-4xl px-6 py-8">
