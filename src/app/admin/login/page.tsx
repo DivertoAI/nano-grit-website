@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 
-export default function AdminLoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -39,6 +39,52 @@ export default function AdminLoginPage() {
   };
 
   return (
+    <form
+      onSubmit={handleSubmit}
+      className="rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur"
+    >
+      <h1 className="mb-5 text-base font-bold text-white">Sign in to continue</h1>
+
+      <div className="grid gap-3">
+        <input
+          type="email"
+          required
+          autoComplete="email"
+          placeholder="Email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          className="login-input w-full rounded-xl border border-white/10 bg-[#111827] px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="password"
+          required
+          autoComplete="current-password"
+          placeholder="Password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          className="login-input w-full rounded-xl border border-white/10 bg-[#111827] px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {error && (
+        <p className="mt-3 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-medium text-rose-400">
+          {error}
+        </p>
+      )}
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="mt-5 w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+      >
+        {loading ? "Signing in…" : "Sign in"}
+      </button>
+    </form>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
     <div className="flex min-h-screen items-center justify-center bg-[#0a0f1e] px-4">
       <div className="w-full max-w-sm">
         {/* Brand */}
@@ -60,48 +106,9 @@ export default function AdminLoginPage() {
           </div>
         </div>
 
-        {/* Card */}
-        <form
-          onSubmit={handleSubmit}
-          className="rounded-2xl border border-white/10 bg-white/5 p-7 backdrop-blur"
-        >
-          <h1 className="mb-5 text-base font-bold text-white">Sign in to continue</h1>
-
-          <div className="grid gap-3">
-            <input
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="Email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              className="login-input w-full rounded-xl border border-white/10 bg-[#111827] px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <input
-              type="password"
-              required
-              autoComplete="current-password"
-              placeholder="Password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="login-input w-full rounded-xl border border-white/10 bg-[#111827] px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          {error && (
-            <p className="mt-3 rounded-lg bg-rose-500/15 px-3 py-2 text-xs font-medium text-rose-400">
-              {error}
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="mt-5 w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? "Signing in…" : "Sign in"}
-          </button>
-        </form>
+        <Suspense fallback={<div className="rounded-2xl border border-white/10 bg-white/5 p-7" />}>
+          <LoginForm />
+        </Suspense>
       </div>
     </div>
   );
