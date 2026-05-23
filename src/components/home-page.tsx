@@ -481,19 +481,17 @@ export function HomePage() {
                 </ul>
               </SectionReveal>
             ))}
-          </div>
-          <SectionReveal delay={0.21}>
-            <div className="card mt-4 p-6">
+            <SectionReveal className="card p-6" delay={0.21}>
               <p className="display-font text-3xl tracking-[0.04em] text-slate-900">🏍️ Bike Coating</p>
-              <p className="mt-2 text-xl font-extrabold text-[var(--accent-strong)]">Starts at ₹3,999</p>
+              <p className="mt-3 text-xl font-extrabold text-[var(--accent-strong)]">Starts at ₹3,999</p>
               <p className="mt-2 text-sm text-muted">Ceramic coating packages for bikes — from daily commuters to performance machines.</p>
-              <ul className="mt-4 grid gap-2 sm:grid-cols-3">
+              <ul className="mt-4 grid gap-2">
                 <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Single-layer ceramic</li>
                 <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Decontamination wash</li>
                 <li className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700">Multi-layer options available</li>
               </ul>
-            </div>
-          </SectionReveal>
+            </SectionReveal>
+          </div>
         </section>
 
         <section className="shell mt-20">
